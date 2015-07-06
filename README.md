@@ -1,0 +1,18 @@
+Coverage to Atlassian Clover conversion tool
+============================================
+
+A tool to convert python-coverage xml report to Atlassian Clover xml report 
+format.
+
+[![Build Status](https://travis-ci.org/tumb1er/coverage2clover.svg?branch=master)](https://travis-ci.org/tumb1er/coverage2clover)
+
+Usage
+-----
+```sh
+pip install coverage2clover
+
+coverage2clover < coverage.xml > clover.xml
+coverage2clover -i coverage.xml -o clover.xml
+```
+
+
