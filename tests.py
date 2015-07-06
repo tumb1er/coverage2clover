@@ -7,11 +7,8 @@ from tempfile import TemporaryFile
 from unittest import TestCase, skipIf
 import sys
 import unittest
-import datetime
-from StringIO import StringIO
 
 import clover
-
 
 clover_module_file = clover.__file__
 
@@ -79,7 +76,7 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         self.c.open(self.filename)
         cdata = deepcopy(self.c.__dict__)
         packages = cdata.pop('packages')
-        package = deepcopy(packages.values()[0].__dict__)
+        package = deepcopy(list(packages.values())[0].__dict__)
 
         with open(__file__.replace('.pyc', '.py')) as f:
             tests_loc = len(f.readlines())
@@ -139,7 +136,7 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             cl.export(tmp)
             tmp.seek(0)
             content = tmp.read()
-            with open(os.path.join(self.assets_dir, 'clover.xml')) as g:
+            with open(os.path.join(self.assets_dir, 'clover.xml'), 'rb') as g:
                 self.assertEqual(content, g.read())
 
 
