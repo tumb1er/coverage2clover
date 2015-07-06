@@ -5,6 +5,7 @@ A tool to convert python-coverage xml report to Atlassian Clover xml report
 format.
 
 [![Build Status](https://travis-ci.org/tumb1er/coverage2clover.svg?branch=master)](https://travis-ci.org/tumb1er/coverage2clover)
+[![PyPI version](https://badge.fury.io/py/coverage2clover.svg)](http://badge.fury.io/py/coverage2clover)
 
 Usage
 -----
