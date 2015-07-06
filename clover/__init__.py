@@ -189,8 +189,7 @@ class Clover(object):
                 classes += 1
                 c = p.classes[cname]
                 covered_elements = c.covered_statements + c.covered_conditions
-                class_info = ET.Element('class', name=c.name,
-                                           filename=c.filename)
+                class_info = ET.Element('class', name=c.name, filename=c.filename)
                 package.append(class_info)
                 metrics = ET.Element(
                     'metrics',
@@ -216,6 +215,9 @@ class Clover(object):
             import io
             b = io.BytesIO()
             ET.ElementTree(root).write(b, encoding='utf-8', xml_declaration=True)
-            f.write(b.getvalue().decode("utf-8"))
+            if 'b' not in f.mode:
+                f.write(b.getvalue().decode("utf-8"))
+            else:
+                f.write(b.getvalue())
         if self.autoclose:
             f.close()
