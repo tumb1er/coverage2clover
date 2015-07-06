@@ -205,7 +205,17 @@ class Clover(object):
                     ncloc=str(c.ncloc))
                 class_info.append(metrics)
         project_metrics.set('classes', str(classes))
+
+        self.write_clover(root, file_like_object)
+
+    def write_clover(self, root, file_like_object):
         f = open_file(file_like_object, 'w')
-        ET.ElementTree(root).write(f, encoding='utf-8', xml_declaration=True)
+        if sys.version_info[0] == 2:
+            ET.ElementTree(root).write(f, encoding='utf-8', xml_declaration=True)
+        else:
+            import io
+            b = io.BytesIO()
+            ET.ElementTree(root).write(b, encoding='utf-8', xml_declaration=True)
+            f.write(b.getvalue().decode("utf-8"))
         if self.autoclose:
             f.close()
