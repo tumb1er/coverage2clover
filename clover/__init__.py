@@ -123,7 +123,7 @@ class Cobertura(object):
                 covered_statements = 0
                 conditions = 0
                 covered_conditions = 0
-                for line in class_info.iter('lines'):
+                for line in class_info.iter('line'):
                     statements += 1
                     if line.get('hits') == '1':
                         covered_statements += 1
