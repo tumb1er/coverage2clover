@@ -8,7 +8,7 @@ except (OSError, IOError):
 
 setup(
     name='coverage2clover',
-    version='1.0.0',
+    version='1.1.0',
     packages=['clover'],
     scripts=["bin/coverage2clover"],
     url='http://github.com/tumb1er/coverage2clover',
