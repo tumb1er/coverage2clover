@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-coverage run --source=`pwd` --omit=`pwd`/setup.py tests.py
+coverage run --branch --source=`pwd`/clover tests.py
 coverage xml
 mv coverage.xml assets
 

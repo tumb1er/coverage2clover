@@ -78,24 +78,21 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         packages = cdata.pop('packages')
         package = deepcopy(list(packages.values())[0].__dict__)
 
-        with open(__file__.replace('.pyc', '.py')) as f:
-            tests_loc = len(f.readlines())
-
         with open(clover_module_file.replace('.pyc', '.py')) as f:
             clover_loc = len(f.readlines())
 
-        loc = tests_loc + clover_loc
+        loc = clover_loc
 
         cversion = coverage.__version__
         expected = {
             'classes': 0,
-            'conditions': 0,
-            'covered_conditions': 0,
-            'covered_statements': 205,
-            'files': 2,
+            'conditions': 36,
+            'covered_conditions': 23,
+            'covered_statements': 132,
+            'files': 1,
             'loc': loc,
-            'ncloc': 226,
-            'statements': 226,
+            'ncloc': 148,
+            'statements': 148,
             'version': cversion
         }
         cdata.pop('timestamp')
@@ -103,12 +100,12 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         expected = {
             'loc': loc,
-            'statements': 226,
+            'statements': 148,
             'name': '',
-            'ncloc': 226,
-            'covered_conditions': 0,
-            'conditions': 0,
-            'covered_statements': 205
+            'ncloc': 148,
+            'covered_conditions': 23,
+            'conditions': 36,
+            'covered_statements': 132
         }
 
         classes = package.pop('classes')
@@ -124,9 +121,9 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             'name': cname,
             'filename': 'clover/__init__.py',
             'ncloc': 148,
-            'covered_conditions': 0,
-            'conditions': 0,
-            'covered_statements': 128
+            'covered_conditions': 23,
+            'conditions': 36,
+            'covered_statements': 132
         }
 
         self.assertDictEqual(clover, expected)
