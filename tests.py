@@ -7,7 +7,7 @@ from tempfile import TemporaryFile
 from unittest import TestCase, skipIf
 import sys
 import unittest
-
+import coverage
 import clover
 
 clover_module_file = clover.__file__
@@ -86,6 +86,7 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         loc = tests_loc + clover_loc
 
+        cversion = coverage.__version__
         expected = {
             'classes': 0,
             'conditions': 0,
@@ -95,7 +96,7 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             'loc': loc,
             'ncloc': 2,
             'statements': 2,
-            'version': '3.7.1'
+            'version': cversion
         }
         cdata.pop('timestamp')
         self.assertDictEqual(cdata, expected)
@@ -114,12 +115,13 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         self.assertDictEqual(package, expected)
 
-        clover = deepcopy(classes['clover/__init__'].__dict__)
+        cname = 'clover/__init__' if cversion < '4.0' else '__init__.py'
+        clover = deepcopy(classes[cname].__dict__)
 
         expected = {
             'loc': clover_loc,
             'statements': 1,
-            'name': 'clover/__init__',
+            'name': cname,
             'filename': 'clover/__init__.py',
             'ncloc': 1,
             'covered_conditions': 0,
