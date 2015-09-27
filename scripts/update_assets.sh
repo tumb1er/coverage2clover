@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-coverage -x tests.py
+coverage run --source=`pwd` --omit=`pwd`/setup.py tests.py
 coverage xml
 mv coverage.xml assets
 
