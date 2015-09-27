@@ -10,6 +10,8 @@ import unittest
 import coverage
 import clover
 
+PY3 = sys.version_info[0] == 3
+
 clover_module_file = clover.__file__
 
 
@@ -84,11 +86,13 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         loc = clover_loc
 
         cversion = coverage.__version__
+        conditions = 23 if not PY3 else 24
+        statements = 132 if not PY3 else 137
         expected = {
             'classes': 0,
             'conditions': 36,
-            'covered_conditions': 23,
-            'covered_statements': 132,
+            'covered_conditions': conditions,
+            'covered_statements': statements,
             'files': 1,
             'loc': loc,
             'ncloc': 148,
@@ -103,9 +107,9 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             'statements': 148,
             'name': '',
             'ncloc': 148,
-            'covered_conditions': 23,
+            'covered_conditions': conditions,
             'conditions': 36,
-            'covered_statements': 132
+            'covered_statements': statements
         }
 
         classes = package.pop('classes')
@@ -121,9 +125,9 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             'name': cname,
             'filename': 'clover/__init__.py',
             'ncloc': 148,
-            'covered_conditions': 23,
+            'covered_conditions': conditions,
             'conditions': 36,
-            'covered_statements': 132
+            'covered_statements': statements
         }
 
         self.assertDictEqual(clover, expected)
