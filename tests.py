@@ -91,18 +91,19 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         loc = clover_loc + bin_loc
 
         cversion = coverage.__version__
-        conditions = 23 if not PY3 else 24
-        statements = 139 if not PY3 else 144
+        conditions = 24 if not PY3 else 25
+        clover_conds = 23 if not PY3 else 24
+        statements = 140 if not PY3 else 145
         clover_stmts = 132 if not PY3 else 137
         expected = {
             'classes': 0,
-            'conditions': 36,
+            'conditions': 40,
             'covered_conditions': conditions,
             'covered_statements': statements,
             'files': 2,
             'loc': loc,
-            'ncloc': 162,
-            'statements': 162,
+            'ncloc': 165,
+            'statements': 165,
             'version': cversion
         }
         cdata.pop('timestamp')
@@ -110,11 +111,11 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         expected = {
             'loc': loc,
-            'statements': 162,
+            'statements': 165,
             'name': '',
-            'ncloc': 162,
+            'ncloc': 165,
             'covered_conditions': conditions,
-            'conditions': 36,
+            'conditions': 40,
             'covered_statements': statements
         }
 
@@ -131,7 +132,7 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             'name': cname,
             'filename': 'clover/__init__.py',
             'ncloc': 148,
-            'covered_conditions': conditions,
+            'covered_conditions': clover_conds,
             'conditions': 36,
             'covered_statements': clover_stmts
         }
