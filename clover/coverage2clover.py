@@ -19,11 +19,11 @@ parser.add_option("-o", "--output-file", dest="outputfile", default=None,
                   help="write clover report to FILE", metavar="FILE")
 
 
-options, args = parser.parse_args()
-
-inputfile = options.inputfile or sys.stdin
-outputfile = options.outputfile or sys.stdout
-cov = Cobertura()
-cov.open(inputfile)
-cl = Clover(cov)
-cl.export(outputfile)
+def main():
+    options, args = parser.parse_args()
+    inputfile = options.inputfile or sys.stdin
+    outputfile = options.outputfile or sys.stdout
+    cov = Cobertura()
+    cov.open(inputfile)
+    cl = Clover(cov)
+    cl.export(outputfile)
