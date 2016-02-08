@@ -9,12 +9,10 @@ import sys
 import unittest
 import coverage
 import clover
-import clover.coverage2clover
 
 PY3 = sys.version_info[0] == 3
 
 clover_module_file = clover.__file__
-clover_bin_file = clover.coverage2clover.__file__
 
 
 class AssetsMixin(object):
@@ -71,6 +69,9 @@ class OpenHelperTestCase(AssetsMixin, TestCase):
 class CoberturaTestCase(AssetsMixin, TestCase):
     """ Testing opening of coverage report."""
 
+    NCLOC = 149
+    CONDS = 38
+
     def setUp(self):
         super(CoberturaTestCase, self).setUp()
         self.c = clover.Cobertura()
@@ -85,25 +86,20 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         with open(clover_module_file.replace('.pyc', '.py')) as f:
             clover_loc = len(f.readlines())
 
-        with open(clover_bin_file.replace('.pyc', '.py')) as f:
-            bin_loc = len(f.readlines())
-
-        loc = clover_loc + bin_loc
+        loc = clover_loc
 
         cversion = coverage.__version__
-        conditions = 24 if not PY3 else 25
-        clover_conds = 23 if not PY3 else 24
-        statements = 140 if not PY3 else 145
-        clover_stmts = 132 if not PY3 else 137
+        conditions = 25 if not PY3 else 26
+        statements = 133 if not PY3 else 138
         expected = {
             'classes': 0,
-            'conditions': 40,
+            'conditions': self.CONDS,
             'covered_conditions': conditions,
             'covered_statements': statements,
-            'files': 2,
+            'files': 1,
             'loc': loc,
-            'ncloc': 165,
-            'statements': 165,
+            'ncloc': self.NCLOC,
+            'statements': self.NCLOC,
             'version': cversion
         }
         cdata.pop('timestamp')
@@ -111,11 +107,11 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         expected = {
             'loc': loc,
-            'statements': 165,
+            'statements': self.NCLOC,
             'name': '',
-            'ncloc': 165,
+            'ncloc': self.NCLOC,
             'covered_conditions': conditions,
-            'conditions': 40,
+            'conditions': self.CONDS,
             'covered_statements': statements
         }
 
@@ -128,13 +124,13 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         expected = {
             'loc': clover_loc,
-            'statements': 148,
+            'statements': self.NCLOC,
             'name': cname,
             'filename': 'clover/__init__.py',
-            'ncloc': 148,
-            'covered_conditions': clover_conds,
-            'conditions': 36,
-            'covered_statements': clover_stmts
+            'ncloc': self.NCLOC,
+            'covered_conditions': conditions,
+            'conditions': self.CONDS,
+            'covered_statements': statements
         }
 
         self.assertDictEqual(clover, expected)

@@ -1,10 +1,9 @@
 # coding: utf-8
 
+import re
+import sys
 from datetime import datetime
 from xml.etree import ElementTree as ET
-import re
-import subprocess
-import sys
 
 __all__ = ['Cobertura', 'Clover']
 
@@ -77,9 +76,11 @@ class Class(object):
         self.ncloc = statements
 
     def count_loc(self):
-        output = subprocess.check_output(['wc', '-l', self.filename])
-        m = re.match(b'^[\s]*([\d]+).*', output)
-        self.loc = int(m.group(1))
+        i = 0
+        with open(self.filename) as f:
+            for i, l in enumerate(f):
+                pass
+        self.loc = i + 1
 
 
 class Cobertura(object):
