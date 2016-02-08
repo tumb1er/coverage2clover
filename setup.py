@@ -8,7 +8,7 @@ setup(
     license='Beer License',
     entry_points={
         'console_scripts': [
-            'foo = clover.coverage2clover:main'
+            'coverage2clover = clover.coverage2clover:main'
         ]
     },
     author='tumbler',

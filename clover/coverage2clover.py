@@ -27,3 +27,7 @@ def main():
     cov.open(inputfile)
     cl = Clover(cov)
     cl.export(outputfile)
+
+
+if __name__ == '__main__':
+    main()
