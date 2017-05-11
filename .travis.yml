@@ -4,9 +4,17 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
+  - "3.6"
 env:
   - COV=3.7.1
   - COV=4.0
+  - COV=4.4
+matrix:
+  exclude:
+    - python: "3.6"
+      env: COV=3.7.1
+    - python: "3.6"
+      env: COV=4.0
 
 # command to install dependencies
 install: pip install coverage==$COV
