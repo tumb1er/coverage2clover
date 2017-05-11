@@ -12,9 +12,9 @@ env:
 matrix:
   exclude:
     - python: "3.6"
-      COV: 3.7.1
+      env: COV=3.7.1
     - python: "3.6"
-      COV: 4.4
+      env COV=4.4
 
 # command to install dependencies
 install: pip install coverage==$COV
