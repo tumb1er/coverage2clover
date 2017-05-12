@@ -91,18 +91,17 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         loc = clover_loc + bin_loc
 
         cversion = coverage.__version__
-        conditions = 23 if not PY3 else 24
-        statements = 139 if not PY3 else 144
-        clover_stmts = 132 if not PY3 else 137
+        conditions = 26 if not PY3 else 27
+        statements = 141 if not PY3 else 146
         expected = {
             'classes': 0,
-            'conditions': 36,
+            'conditions': 42,
             'covered_conditions': conditions,
             'covered_statements': statements,
             'files': 2,
             'loc': loc,
-            'ncloc': 162,
-            'statements': 162,
+            'ncloc': 166,
+            'statements': 166,
             'version': cversion
         }
         cdata.pop('timestamp')
@@ -110,11 +109,11 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         expected = {
             'loc': loc,
-            'statements': 162,
+            'statements': 166,
             'name': '',
-            'ncloc': 162,
+            'ncloc': 166,
             'covered_conditions': conditions,
-            'conditions': 36,
+            'conditions': 42,
             'covered_statements': statements
         }
 
@@ -125,14 +124,17 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         cname = 'clover/__init__' if cversion < '4.0' else '__init__.py'
         clover = deepcopy(classes[cname].__dict__)
 
+        clover_conds = 25 if not PY3 else 26
+        clover_stmts = 133 if not PY3 else 138
+
         expected = {
             'loc': clover_loc,
-            'statements': 148,
+            'statements': 149,
             'name': cname,
             'filename': 'clover/__init__.py',
-            'ncloc': 148,
-            'covered_conditions': conditions,
-            'conditions': 36,
+            'ncloc': 149,
+            'covered_conditions': clover_conds,
+            'conditions': 38,
             'covered_statements': clover_stmts
         }
 
