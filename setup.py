@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='coverage2clover',
-    version='1.3.0',
+    version='1.3.1',
     packages=['clover'],
     url='http://github.com/tumb1er/coverage2clover',
     license='Beer License',
