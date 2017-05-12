@@ -12,6 +12,10 @@ import clover
 import clover.coverage2clover
 
 PY3 = sys.version_info[0] == 3
+try:
+    COV44 = coverage.version_info >= (4, 4, 0)
+except AttributeError:
+    COV44 = False
 
 clover_module_file = clover.__file__
 clover_bin_file = clover.coverage2clover.__file__
@@ -101,6 +105,9 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             covered_conditions += 1
             covered_statements += 5
 
+        if not COV44:
+            conditions += 1
+
         expected = {
             'classes': 0,
             'conditions': conditions,
@@ -140,6 +147,9 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         if PY3:
             covered_conditions += 1
             covered_statements += 5
+
+        if not COV44:
+            conditions += 1
 
         expected = {
             'loc': clover_loc,
