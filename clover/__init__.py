@@ -77,9 +77,12 @@ class Class(object):
 
     def count_loc(self):
         i = 0
-        with open(self.filename) as f:
-            for i, l in enumerate(f):
-                pass
+        try:
+            with open(self.filename) as f:
+                for i, l in enumerate(f):
+                    pass
+        except IOError:
+            self.loc = 0
         self.loc = i + 1
 
 

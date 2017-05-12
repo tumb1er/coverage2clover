@@ -91,17 +91,25 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         loc = clover_loc + bin_loc
 
         cversion = coverage.__version__
-        conditions = 26 if not PY3 else 27
-        statements = 141 if not PY3 else 146
+
+        statements = ncloc = 169
+        covered_conditions = 26
+        covered_statements = 142
+        conditions = 42
+
+        if PY3:
+            covered_conditions += 1
+            covered_statements += 5
+
         expected = {
             'classes': 0,
-            'conditions': 42,
-            'covered_conditions': conditions,
-            'covered_statements': statements,
+            'conditions': conditions,
+            'covered_conditions': covered_conditions,
+            'covered_statements': covered_statements,
             'files': 2,
             'loc': loc,
-            'ncloc': 166,
-            'statements': 166,
+            'ncloc': ncloc,
+            'statements': statements,
             'version': cversion
         }
         cdata.pop('timestamp')
@@ -109,12 +117,12 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         expected = {
             'loc': loc,
-            'statements': 166,
+            'statements': statements,
             'name': '',
-            'ncloc': 166,
-            'covered_conditions': conditions,
-            'conditions': 42,
-            'covered_statements': statements
+            'ncloc': ncloc,
+            'covered_conditions': covered_conditions,
+            'conditions': conditions,
+            'covered_statements': covered_statements
         }
 
         classes = package.pop('classes')
@@ -124,18 +132,24 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         cname = 'clover/__init__' if cversion < '4.0' else '__init__.py'
         clover = deepcopy(classes[cname].__dict__)
 
-        clover_conds = 25 if not PY3 else 26
-        clover_stmts = 133 if not PY3 else 138
+        statements = ncloc = 152
+        conditions = 38
+        covered_conditions = 25
+        covered_statements = 134
+
+        if PY3:
+            covered_conditions += 1
+            covered_statements += 5
 
         expected = {
             'loc': clover_loc,
-            'statements': 149,
+            'statements': statements,
             'name': cname,
             'filename': 'clover/__init__.py',
-            'ncloc': 149,
-            'covered_conditions': clover_conds,
-            'conditions': 38,
-            'covered_statements': clover_stmts
+            'ncloc': ncloc,
+            'covered_conditions': covered_conditions,
+            'conditions': conditions,
+            'covered_statements': covered_statements
         }
 
         self.assertDictEqual(clover, expected)
