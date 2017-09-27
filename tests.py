@@ -96,10 +96,10 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         cversion = coverage.__version__
 
-        statements = ncloc = 169
-        covered_conditions = 26
-        covered_statements = 142
-        conditions = 42
+        statements = ncloc = 179
+        covered_conditions = 32
+        covered_statements = 151
+        conditions = 50
 
         if PY3:
             covered_conditions += 1
@@ -139,10 +139,10 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         cname = 'clover/__init__' if cversion < '4.0' else '__init__.py'
         clover = deepcopy(classes[cname].__dict__)
 
-        statements = ncloc = 152
-        conditions = 38
-        covered_conditions = 25
-        covered_statements = 134
+        statements = ncloc = 162
+        conditions = 46
+        covered_conditions = 31
+        covered_statements = 143
 
         if PY3:
             covered_conditions += 1
