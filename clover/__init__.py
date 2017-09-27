@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import os
 import re
 import sys
 from datetime import datetime
@@ -75,15 +76,24 @@ class Class(object):
         self.covered_conditions = covered_conditions
         self.ncloc = statements
 
-    def count_loc(self):
+    def count_loc(self, sources):
+        if not sources:
+            # Old version of coverage
+            sources = ['']
         i = 0
-        try:
-            with open(self.filename) as f:
-                for i, l in enumerate(f):
-                    pass
-        except IOError:
-            self.loc = 0
-        self.loc = i + 1
+        for source in sources:
+            filename = os.path.join(source, self.filename)
+            try:
+                with open(filename) as f:
+                    for i, __ in enumerate(f, start=1):
+                        pass
+            except IOError:
+                # Try next file
+                continue
+            else:
+                # The first file was founded (optimistic loop)
+                break
+        self.loc = i
 
 
 class Cobertura(object):
@@ -117,6 +127,10 @@ class Cobertura(object):
         timestamp = float(root.get('timestamp') or 0) / 1000
         self.timestamp = datetime.fromtimestamp(timestamp)
         self.version = root.get('version') or ''
+        sources = []
+        for source in root.iter('sources'):
+            for s in source.iter('source'):
+                sources.append(s.text)
         for package in root.iter('packages'):
             name = package.get('name') or ''
             p = Package(name)
@@ -139,7 +153,7 @@ class Cobertura(object):
 
                 c = Class(name, filename, statements, covered_statements,
                           conditions, covered_conditions)
-                c.count_loc()
+                c.count_loc(sources)
                 p.add_class(c)
             self.add_package(p)
 
