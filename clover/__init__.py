@@ -84,7 +84,7 @@ class Class(object):
         for source in sources:
             filename = os.path.join(source, self.filename)
             try:
-                with open(filename) as f:
+                with open(filename, encoding='utf-8') as f:
                     for i, __ in enumerate(f, start=1):
                         pass
             except IOError:
