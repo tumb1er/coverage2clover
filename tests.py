@@ -12,10 +12,6 @@ import clover
 import clover.coverage2clover
 
 PY3 = sys.version_info[0] == 3
-try:
-    COV44 = coverage.version_info >= (4, 4, 0)
-except AttributeError:
-    COV44 = False
 
 clover_module_file = clover.__file__
 clover_bin_file = clover.coverage2clover.__file__
@@ -96,17 +92,15 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         cversion = coverage.__version__
 
-        statements = ncloc = 179
-        covered_conditions = 32
-        covered_statements = 151
-        conditions = 50
+        # Initial values for coverage==4.5
+        statements = ncloc = 183
+        covered_conditions = 33
+        covered_statements = 152
+        conditions = 54
 
         if PY3:
             covered_conditions += 1
             covered_statements += 5
-
-        if not COV44:
-            conditions += 1
 
         expected = {
             'classes': 0,
@@ -139,17 +133,14 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         cname = 'clover/__init__' if cversion < '4.0' else '__init__.py'
         clover = deepcopy(classes[cname].__dict__)
 
-        statements = ncloc = 162
-        conditions = 46
-        covered_conditions = 31
-        covered_statements = 143
+        statements = ncloc = 166
+        conditions = 50
+        covered_conditions = 32
+        covered_statements = 144
 
         if PY3:
             covered_conditions += 1
             covered_statements += 5
-
-        if not COV44:
-            conditions += 1
 
         expected = {
             'loc': clover_loc,

@@ -22,5 +22,6 @@ setup(
                  'Programming Language :: Python :: 3.6',
                  'Topic :: Text Processing :: Markup :: XML',
                  'Topic :: Software Development :: Quality Assurance',
-                 'Topic :: Software Development :: Testing']
+                 'Topic :: Software Development :: Testing'],
+    install_requires=['coverage']
 )

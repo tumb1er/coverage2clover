@@ -6,15 +6,9 @@ python:
   - "3.5"
   - "3.6"
 env:
-  - COV=3.7.1
-  - COV=4.0
-  - COV=4.4
+  - COV=4.5
 matrix:
   exclude:
-    - python: "3.6"
-      env: COV=3.7.1
-    - python: "3.6"
-      env: COV=4.0
 
 # command to install dependencies
 install: pip install coverage==$COV
@@ -22,5 +16,6 @@ install: pip install coverage==$COV
 # command to run tests
 script:
     - python setup.py install
+    - sh scripts/update_assets.sh
     - sh scripts/update_assets.sh
     - python -m unittest tests
