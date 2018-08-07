@@ -84,9 +84,14 @@ class Class(object):
         for source in sources:
             filename = os.path.join(source, self.filename)
             try:
-                with open(filename, encoding='utf-8') as f:
-                    for i, __ in enumerate(f, start=1):
-                        pass
+                if sys.version_info[0] == 2:
+                    with open(filename) as f:
+                        for i, __ in enumerate(f, start=1):
+                            pass
+                else:
+                    with open(filename, encoding='utf-8') as f:
+                        for i, __ in enumerate(f, start=1):
+                            pass
             except IOError:
                 # Try next file
                 continue
