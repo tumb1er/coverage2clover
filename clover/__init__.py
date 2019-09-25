@@ -8,9 +8,34 @@ from xml.etree import ElementTree as ET
 
 __all__ = ['Cobertura', 'Clover']
 
+PY3 = sys.version_info[0] == 3
 
-if sys.version_info[0] == 2:
-    # For python < 3.x
+
+if PY3:
+    import io
+    import pygount
+
+    is_file = lambda x: isinstance(x, io.IOBase)
+
+    def open_file(file_or_name, mode='r'):
+        if is_file(file_or_name):
+            # file descriptor already opened
+            return file_or_name
+
+        if isinstance(file_or_name, (bytes, str)):
+            # open filename and return FD
+            return open(file_or_name, mode)
+
+        raise ValueError("Invalid agrument")
+
+    def count_loc(filename):
+        analysis = pygount.source_analysis(
+            filename,
+            group='clover',
+            fallback_encoding='utf-8')
+        loc = analysis.code
+        return loc
+else:
     is_file = lambda x: isinstance(x, file)
 
     def open_file(file_or_name, mode='r'):
@@ -24,21 +49,11 @@ if sys.version_info[0] == 2:
 
         raise ValueError("Invalid agrument")
 
-else:
-    # For python >= 3.x
-    import io
-    is_file = lambda x: isinstance(x, io.IOBase)
-
-    def open_file(file_or_name, mode='r'):
-        if is_file(file_or_name):
-            # file descriptor already opened
-            return file_or_name
-
-        if isinstance(file_or_name, (bytes, str)):
-            # open filename and return FD
-            return open(file_or_name, mode)
-
-        raise ValueError("Invalid agrument")
+    def count_loc(filename):
+        f = open_file(filename)
+        loc = len(f.readlines())
+        f.close()
+        return loc
 
 
 class Package(object):
@@ -74,31 +89,23 @@ class Class(object):
         self.covered_statements = covered_statements
         self.conditions = conditions
         self.covered_conditions = covered_conditions
+        self.loc = 0
         self.ncloc = statements
 
     def count_loc(self, sources):
         if not sources:
             # Old version of coverage
             sources = ['']
-        i = 0
         for source in sources:
             filename = os.path.join(source, self.filename)
             try:
-                if sys.version_info[0] == 2:
-                    with open(filename) as f:
-                        for i, __ in enumerate(f, start=1):
-                            pass
-                else:
-                    with open(filename, encoding='utf-8') as f:
-                        for i, __ in enumerate(f, start=1):
-                            pass
+                self.loc += count_loc(filename)
             except IOError:
                 # Try next file
                 continue
             else:
                 # The first file was founded (optimistic loop)
                 break
-        self.loc = i
 
 
 class Cobertura(object):
@@ -126,7 +133,7 @@ class Cobertura(object):
         self.ncloc += p.ncloc
 
     def open(self, file_like_object):
-        f = open_file(file_like_object, 'r')
+        f = open_file(file_like_object)
         root = ET.parse(f).getroot()
         f.close()
         timestamp = float(root.get('timestamp') or 0) / 1000
@@ -232,9 +239,7 @@ class Clover(object):
 
     def write_clover(self, root, file_like_object):
         f = open_file(file_like_object, 'w')
-        if sys.version_info[0] == 2:
-            ET.ElementTree(root).write(f, encoding='utf-8', xml_declaration=True)
-        else:
+        if PY3:
             import io
             b = io.BytesIO()
             ET.ElementTree(root).write(b, encoding='utf-8', xml_declaration=True)
@@ -242,5 +247,7 @@ class Clover(object):
                 f.write(b.getvalue().decode("utf-8"))
             else:
                 f.write(b.getvalue())
+        else:
+            ET.ElementTree(root).write(f, encoding='utf-8', xml_declaration=True)
         if self.autoclose:
             f.close()
