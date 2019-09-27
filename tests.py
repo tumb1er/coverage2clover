@@ -1,17 +1,15 @@
-# coding: utf-8
-
-# $Id: $
-from copy import deepcopy
 import os
-from tempfile import TemporaryFile
-from unittest import TestCase, skipIf
 import sys
 import unittest
+from copy import deepcopy
+from tempfile import TemporaryFile
+from unittest import TestCase
+
 import coverage
+import pygount
+
 import clover
 import clover.coverage2clover
-
-PY3 = sys.version_info[0] == 3
 
 clover_module_file = clover.__file__
 clover_bin_file = clover.coverage2clover.__file__
@@ -44,12 +42,7 @@ class OpenHelperTestCase(AssetsMixin, TestCase):
     def test_open_str(self):
         self.assertOpenFileOK(self.filename)
 
-    @skipIf(sys.version_info[0] != 2, "test is not for PY2")
-    def test_open_unicode_py2(self):
-        self.assertOpenFileOK(unicode(self.filename))
-
-    @skipIf(sys.version_info[0] == 2, "test is not for PY3")
-    def test_open_bytes_py3(self):
+    def test_open_bytes(self):
         self.assertOpenFileOK(bytes(self.filename, encoding='utf-8'))
 
     def test_open_stdin(self):
@@ -82,25 +75,27 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         packages = cdata.pop('packages')
         package = deepcopy(list(packages.values())[0].__dict__)
 
-        with open(clover_module_file.replace('.pyc', '.py')) as f:
-            clover_loc = len(f.readlines())
+        clover_module_analysis = pygount.source_analysis(
+            clover_module_file,
+            group='clover',
+            fallback_encoding='utf-8')
+        clover_loc = clover_module_analysis.code
 
-        with open(clover_bin_file.replace('.pyc', '.py')) as f:
-            bin_loc = len(f.readlines())
+        clover_bin_analysis = pygount.source_analysis(
+            clover_bin_file,
+            group='clover',
+            fallback_encoding='utf-8')
+        bin_loc = clover_bin_analysis.code
 
         loc = clover_loc + bin_loc
 
         cversion = coverage.__version__
 
-        # Initial values for coverage==4.5
-        statements = ncloc = 183
-        covered_conditions = 33
-        covered_statements = 152
-        conditions = 54
-
-        if PY3:
-            covered_conditions += 1
-            covered_statements += 5
+        # Initial values for coverage==4.5.4
+        statements = ncloc = 166
+        covered_conditions = 29
+        covered_statements = 151
+        conditions = 38
 
         expected = {
             'classes': 0,
@@ -133,14 +128,10 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         cname = 'clover/__init__' if cversion < '4.0' else '__init__.py'
         clover = deepcopy(classes[cname].__dict__)
 
-        statements = ncloc = 166
-        conditions = 50
-        covered_conditions = 32
-        covered_statements = 144
-
-        if PY3:
-            covered_conditions += 1
-            covered_statements += 5
+        statements = ncloc = 149
+        conditions = 34
+        covered_conditions = 28
+        covered_statements = 143
 
         expected = {
             'loc': clover_loc,

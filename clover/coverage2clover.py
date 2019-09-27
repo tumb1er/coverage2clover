@@ -1,16 +1,11 @@
 #!/usr/bin/env python
-
-# coding: utf-8
-
-from optparse import OptionParser
 import sys
+from optparse import OptionParser
 
 from clover import Cobertura, Clover
 
-
 # Transforms coverage.py xml report to
 # Atlassian Clover xml report format
-
 
 parser = OptionParser()
 parser.add_option("-i", "--input-file", dest="inputfile", default=None,
