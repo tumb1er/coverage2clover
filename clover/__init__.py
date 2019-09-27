@@ -1,59 +1,24 @@
-# coding: utf-8
-
+import io
 import os
 import re
-import sys
 from datetime import datetime
 from xml.etree import ElementTree as ET
 
+import pygount
+
 __all__ = ['Cobertura', 'Clover']
 
-PY3 = sys.version_info[0] == 3
+is_file = lambda x: isinstance(x, io.IOBase)
 
 
-if PY3:
-    import io
-    import pygount
-
-    is_file = lambda x: isinstance(x, io.IOBase)
-
-    def open_file(file_or_name, mode='r'):
-        if is_file(file_or_name):
-            # file descriptor already opened
-            return file_or_name
-
-        if isinstance(file_or_name, (bytes, str)):
-            # open filename and return FD
-            return open(file_or_name, mode)
-
-        raise ValueError("Invalid agrument")
-
-    def count_loc(filename):
-        analysis = pygount.source_analysis(
-            filename,
-            group='clover',
-            fallback_encoding='utf-8')
-        loc = analysis.code
-        return loc
-else:
-    is_file = lambda x: isinstance(x, file)
-
-    def open_file(file_or_name, mode='r'):
-        if is_file(file_or_name):
-            # file descriptor already opened
-            return file_or_name
-
-        if isinstance(file_or_name, (str, unicode)):
-            # open filename and return FD
-            return open(file_or_name, mode)
-
-        raise ValueError("Invalid agrument")
-
-    def count_loc(filename):
-        f = open_file(filename)
-        loc = len(f.readlines())
-        f.close()
-        return loc
+def open_file(file_or_name, mode='r'):
+    if is_file(file_or_name):
+        # file descriptor already opened
+        return file_or_name
+    if isinstance(file_or_name, (bytes, str)):
+        # open filename and return FD
+        return open(file_or_name, mode)
+    raise ValueError('Invalid argument')
 
 
 class Package(object):
@@ -99,7 +64,11 @@ class Class(object):
         for source in sources:
             filename = os.path.join(source, self.filename)
             try:
-                self.loc += count_loc(filename)
+                analysis = pygount.source_analysis(
+                    filename,
+                    group='clover',
+                    fallback_encoding='utf-8')
+                self.loc += analysis.code
             except IOError:
                 # Try next file
                 continue
@@ -239,15 +208,11 @@ class Clover(object):
 
     def write_clover(self, root, file_like_object):
         f = open_file(file_like_object, 'w')
-        if PY3:
-            import io
-            b = io.BytesIO()
-            ET.ElementTree(root).write(b, encoding='utf-8', xml_declaration=True)
-            if 'b' not in f.mode:
-                f.write(b.getvalue().decode("utf-8"))
-            else:
-                f.write(b.getvalue())
+        b = io.BytesIO()
+        ET.ElementTree(root).write(b, encoding='utf-8', xml_declaration=True)
+        if 'b' not in f.mode:
+            f.write(b.getvalue().decode('utf-8'))
         else:
-            ET.ElementTree(root).write(f, encoding='utf-8', xml_declaration=True)
+            f.write(b.getvalue())
         if self.autoclose:
             f.close()
