@@ -68,7 +68,7 @@ class Class(object):
                     filename,
                     group='clover',
                     fallback_encoding='utf-8')
-                self.loc += analysis.code
+                self.loc += analysis.code + analysis.documentation
             except IOError:
                 # Try next file
                 continue
