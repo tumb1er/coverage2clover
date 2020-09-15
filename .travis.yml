@@ -15,4 +15,5 @@ install: pip install coverage==$COV
 script:
     - python setup.py install
     - sh scripts/update_assets.sh
+    - sh scripts/update_assets.sh
     - python -m unittest tests
