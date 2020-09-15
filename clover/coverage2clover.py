@@ -8,10 +8,22 @@ from clover import Cobertura, Clover
 # Atlassian Clover xml report format
 
 parser = OptionParser()
-parser.add_option("-i", "--input-file", dest="inputfile", default=None,
-                  help="read coverage report from FILE", metavar="FILE")
-parser.add_option("-o", "--output-file", dest="outputfile", default=None,
-                  help="write clover report to FILE", metavar="FILE")
+parser.add_option(
+    "-i",
+    "--input-file",
+    dest="inputfile",
+    default=None,
+    help="read coverage report from FILE",
+    metavar="FILE",
+)
+parser.add_option(
+    "-o",
+    "--output-file",
+    dest="outputfile",
+    default=None,
+    help="write clover report to FILE",
+    metavar="FILE",
+)
 
 
 def main(*args, **options):
@@ -25,5 +37,5 @@ def main(*args, **options):
     cl.export(outputfile)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

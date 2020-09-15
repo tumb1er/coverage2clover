@@ -9,11 +9,6 @@ env:
 matrix:
   exclude:
 
-# command to install dependencies
-install: pip install coverage==$COV
-
 # command to run tests
 script:
-    - python setup.py install
-    - sh scripts/update_assets.sh
-    - python -m unittest tests
+  - make test
