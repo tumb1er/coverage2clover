@@ -26,7 +26,7 @@ parser.add_argument(
 )
 
 
-def main(*args, **options):
+def main(*args):
     if not args:
         args = parser.parse_args()
     inputfile = args.inputfile or sys.stdin
