@@ -7,6 +7,7 @@ format.
 [![Build Status](https://travis-ci.org/tumb1er/coverage2clover.svg?branch=master)](https://travis-ci.org/tumb1er/coverage2clover)
 [![PyPI version](https://badge.fury.io/py/coverage2clover.svg)](http://badge.fury.io/py/coverage2clover)
 [![Python Versions](https://img.shields.io/pypi/pyversions/coverage2clover.svg)](https://pypi.python.org/pypi/coverage2clover)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Usage
 -----

@@ -1,20 +1,13 @@
 language: python
 python:
-  - "3.4"
   - "3.5"
   - "3.6"
   - "3.7"
-env:
-  - COV=4.5.4
-matrix:
-  exclude:
+  - "3.8"
 
-# command to install dependencies
-install: pip install coverage==$COV
+before_script:
+  - pip3 install tox==3.20.0
 
 # command to run tests
 script:
-    - python setup.py install
-    - sh scripts/update_assets.sh
-    - sh scripts/update_assets.sh
-    - python -m unittest tests
+  - make test

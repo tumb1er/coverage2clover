@@ -21,7 +21,7 @@ class AssetsMixin(object):
     def setUp(self):
         super(AssetsMixin, self).setUp()
         project_root = os.path.dirname(__file__)
-        self.assets_dir = os.path.join(project_root, 'assets')
+        self.assets_dir = os.path.join(project_root, "assets")
 
 
 class OpenHelperTestCase(AssetsMixin, TestCase):
@@ -29,7 +29,7 @@ class OpenHelperTestCase(AssetsMixin, TestCase):
 
     def setUp(self):
         super(OpenHelperTestCase, self).setUp()
-        self.filename = os.path.join(self.assets_dir, 'coverage.xml')
+        self.filename = os.path.join(self.assets_dir, "coverage.xml")
 
     def assertOpenFileOK(self, filename):
         try:
@@ -43,7 +43,7 @@ class OpenHelperTestCase(AssetsMixin, TestCase):
         self.assertOpenFileOK(self.filename)
 
     def test_open_bytes(self):
-        self.assertOpenFileOK(bytes(self.filename, encoding='utf-8'))
+        self.assertOpenFileOK(bytes(self.filename, encoding="utf-8"))
 
     def test_open_stdin(self):
         try:
@@ -67,24 +67,22 @@ class CoberturaTestCase(AssetsMixin, TestCase):
     def setUp(self):
         super(CoberturaTestCase, self).setUp()
         self.c = clover.Cobertura()
-        self.filename = os.path.join(self.assets_dir, 'coverage.xml')
+        self.filename = os.path.join(self.assets_dir, "coverage.xml")
 
     def testOpenCoverage(self):
         self.c.open(self.filename)
         cdata = deepcopy(self.c.__dict__)
-        packages = cdata.pop('packages')
+        packages = cdata.pop("packages")
         package = deepcopy(list(packages.values())[0].__dict__)
 
         clover_analysis = pygount.source_analysis(
-            clover_file,
-            group='clover',
-            fallback_encoding='utf-8')
+            clover_file, group="clover", fallback_encoding="utf-8"
+        )
         clover_loc = clover_analysis.code + clover_analysis.documentation
 
         clover_bin_analysis = pygount.source_analysis(
-            clover_bin_file,
-            group='clover',
-            fallback_encoding='utf-8')
+            clover_bin_file, group="clover", fallback_encoding="utf-8"
+        )
         bin_loc = clover_bin_analysis.code + clover_bin_analysis.documentation
 
         loc = clover_loc + bin_loc
@@ -98,34 +96,34 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         conditions = 38
 
         expected = {
-            'classes': 0,
-            'conditions': conditions,
-            'covered_conditions': covered_conditions,
-            'covered_statements': covered_statements,
-            'files': 2,
-            'loc': loc,
-            'ncloc': ncloc,
-            'statements': statements,
-            'version': cversion
+            "classes": 0,
+            "conditions": conditions,
+            "covered_conditions": covered_conditions,
+            "covered_statements": covered_statements,
+            "files": 2,
+            "loc": loc,
+            "ncloc": ncloc,
+            "statements": statements,
+            "version": cversion,
         }
-        cdata.pop('timestamp')
+        cdata.pop("timestamp")
         self.assertDictEqual(cdata, expected)
 
         expected = {
-            'loc': loc,
-            'statements': statements,
-            'name': '',
-            'ncloc': ncloc,
-            'covered_conditions': covered_conditions,
-            'conditions': conditions,
-            'covered_statements': covered_statements
+            "loc": loc,
+            "statements": statements,
+            "name": "",
+            "ncloc": ncloc,
+            "covered_conditions": covered_conditions,
+            "conditions": conditions,
+            "covered_statements": covered_statements,
         }
 
-        classes = package.pop('classes')
+        classes = package.pop("classes")
 
         self.assertDictEqual(package, expected)
 
-        cname = 'clover/__init__' if cversion < '4.0' else '__init__.py'
+        cname = "clover/__init__" if cversion < "4.0" else "__init__.py"
         clover = deepcopy(classes[cname].__dict__)
 
         statements = ncloc = 149
@@ -134,14 +132,14 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         covered_statements = 143
 
         expected = {
-            'loc': clover_loc,
-            'statements': statements,
-            'name': cname,
-            'filename': 'clover/__init__.py',
-            'ncloc': ncloc,
-            'covered_conditions': covered_conditions,
-            'conditions': conditions,
-            'covered_statements': covered_statements
+            "loc": clover_loc,
+            "statements": statements,
+            "name": cname,
+            "filename": "clover/__init__.py",
+            "ncloc": ncloc,
+            "covered_conditions": covered_conditions,
+            "conditions": conditions,
+            "covered_statements": covered_statements,
         }
 
         self.assertDictEqual(clover, expected)
@@ -153,9 +151,10 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             cl.export(tmp)
             tmp.seek(0)
             content = tmp.read()
-            with open(os.path.join(self.assets_dir, 'clover.xml'), 'rb') as g:
-                if False: self.assertEqual(content, g.read())
+            with open(os.path.join(self.assets_dir, "clover.xml"), "rb") as g:
+                if False:
+                    self.assertEqual(content, g.read())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
