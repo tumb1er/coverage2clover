@@ -4,11 +4,13 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-env:
-  - COV=5.3
 matrix:
   exclude:
 
+before_script:
+  - pip3 install tox==3.20.0
+
 # command to run tests
 script:
+  -
   - make test
