@@ -28,9 +28,9 @@ parser.add_argument(
 
 def main(*args, **options):
     if not args:
-        options, args = parser.parse_args()
-    inputfile = options.inputfile or sys.stdin
-    outputfile = options.outputfile or sys.stdout
+        args = parser.parse_args()
+    inputfile = args.inputfile or sys.stdin
+    outputfile = args.outputfile or sys.stdout
     cov = Cobertura()
     cov.open(inputfile)
     cl = Clover(cov)
