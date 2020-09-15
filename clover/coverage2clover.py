@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 import sys
-from optparse import OptionParser
+import argparse
 
 from clover import Cobertura, Clover
 
 # Transforms coverage.py xml report to
 # Atlassian Clover xml report format
 
-parser = OptionParser()
-parser.add_option(
+parser = argparse.ArgumentParser()
+parser.add_argument(
     "-i",
     "--input-file",
     dest="inputfile",
@@ -16,7 +16,7 @@ parser.add_option(
     help="read coverage report from FILE",
     metavar="FILE",
 )
-parser.add_option(
+parser.add_argument(
     "-o",
     "--output-file",
     dest="outputfile",
