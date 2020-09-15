@@ -4,8 +4,6 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-matrix:
-  exclude:
 
 before_script:
   - pip3 install tox==3.20.0
