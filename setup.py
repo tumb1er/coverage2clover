@@ -20,5 +20,5 @@ setup(
         "Topic :: Software Development :: Quality Assurance",
         "Topic :: Software Development :: Testing",
     ],
-    install_requires=["coverage", "pygount"],
+    install_requires=["coverage==5.3", "pygount==1.2.4"],
 )
