@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 from xml.etree import ElementTree as ET
 
-import pygount
+from pygount import SourceAnalysis
 
 __all__ = ["Cobertura", "Clover"]
 
@@ -69,7 +69,7 @@ class Class(object):
         for source in sources:
             filename = os.path.join(source, self.filename)
             try:
-                analysis = pygount.source_analysis(
+                analysis = SourceAnalysis.from_file(
                     filename, group="clover", fallback_encoding="utf-8"
                 )
                 self.loc += analysis.code + analysis.documentation

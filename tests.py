@@ -6,7 +6,7 @@ from tempfile import TemporaryFile
 from unittest import TestCase
 
 import coverage
-import pygount
+from pygount import SourceAnalysis
 
 import clover
 import clover.coverage2clover
@@ -75,12 +75,12 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         packages = cdata.pop("packages")
         package = deepcopy(list(packages.values())[0].__dict__)
 
-        clover_analysis = pygount.source_analysis(
+        clover_analysis = SourceAnalysis.from_file(
             clover_file, group="clover", fallback_encoding="utf-8"
         )
         clover_loc = clover_analysis.code + clover_analysis.documentation
 
-        clover_bin_analysis = pygount.source_analysis(
+        clover_bin_analysis = SourceAnalysis.from_file(
             clover_bin_file, group="clover", fallback_encoding="utf-8"
         )
         bin_loc = clover_bin_analysis.code + clover_bin_analysis.documentation
