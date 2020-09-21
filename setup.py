@@ -85,4 +85,5 @@ setup(
         "coverage==5.3",
         "pygount==1.2.4",
     ],
+    python_requires=">=3.6",
 )
