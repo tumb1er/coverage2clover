@@ -67,6 +67,8 @@ class Class(object):
             # Old version of coverage
             sources = [""]
         for source in sources:
+            if not source:
+                continue
             filename = os.path.join(source, self.filename)
             try:
                 analysis = SourceAnalysis.from_file(
