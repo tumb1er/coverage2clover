@@ -67,7 +67,7 @@ class Class(object):
             # Old version of coverage
             sources = [""]
         for source in sources:
-            filename = os.path.join(source, self.filename)
+            filename = os.path.join(source or "", self.filename)
             try:
                 analysis = SourceAnalysis.from_file(
                     filename, group="clover", fallback_encoding="utf-8"
