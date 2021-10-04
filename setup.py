@@ -61,7 +61,7 @@ setup(
     name=package_name,
     version=get_version() or "dev",
     packages=["clover"],
-    url="http://github.com/tumb1er/coverage2clover",
+    url="https://github.com/tumb1er/coverage2clover",
     license="Beer License",
     entry_points={"console_scripts": ["coverage2clover = clover.coverage2clover:main"]},
     author="tumbler",
@@ -83,7 +83,7 @@ setup(
         "Topic :: Software Development :: Testing",
     ],
     install_requires=[
-        "coverage>=5.3,<5.6",
+        "coverage>=5.3,<7.0",
         "pygount==1.2.4",
     ],
     python_requires=">=3.6",
