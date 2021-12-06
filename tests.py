@@ -152,8 +152,7 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             tmp.seek(0)
             content = tmp.read()
             with open(os.path.join(self.assets_dir, "clover.xml"), "rb") as g:
-                if False:
-                    self.assertEqual(content, g.read())
+                self.assertEqual(content, g.read())
 
 
 if __name__ == "__main__":
