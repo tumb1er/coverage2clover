@@ -21,7 +21,7 @@ def open_file(file_or_name, mode="r"):
     raise ValueError("Invalid argument")
 
 
-class Package(object):
+class Package:
     def __init__(self, name):
         self.name = name
         self.statements = 0
@@ -43,7 +43,7 @@ class Package(object):
         self.ncloc += c.ncloc
 
 
-class Class(object):
+class Class:
     def __init__(
         self,
         name,
@@ -81,7 +81,7 @@ class Class(object):
                 break
 
 
-class Cobertura(object):
+class Cobertura:
     """ XML-parser for coverage.py xml report."""
 
     def __init__(self):
@@ -149,7 +149,7 @@ class Cobertura(object):
             self.add_package(p)
 
 
-class Clover(object):
+class Clover:
     def __init__(self, coverage):
         self.c = coverage
         self.autoclose = True
@@ -226,6 +226,6 @@ class Clover(object):
         if "b" not in f.mode:
             f.write(b.getvalue().decode("utf-8"))
         else:
-            f.write(b.getvalue())
+            f.write(b.getvalue())  # type: ignore
         if self.autoclose:
             f.close()
