@@ -1,2 +1,2 @@
 coverage==6.3.2
-pygount==1.3.0
+pygount==1.4.0

@@ -82,7 +82,7 @@ class Class:
 
 
 class Cobertura:
-    """ XML-parser for coverage.py xml report."""
+    """XML-parser for coverage.py xml report."""
 
     def __init__(self):
         self.loc = 0

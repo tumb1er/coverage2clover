@@ -16,7 +16,7 @@ clover_bin_file = clover.coverage2clover.__file__
 
 
 class AssetsMixin(object):
-    """ helper for computing absolute path to assets. """
+    """helper for computing absolute path to assets."""
 
     def setUp(self):
         super(AssetsMixin, self).setUp()
@@ -25,7 +25,7 @@ class AssetsMixin(object):
 
 
 class OpenHelperTestCase(AssetsMixin, TestCase):
-    """ Testing open file helper function. """
+    """Testing open file helper function."""
 
     def setUp(self):
         super(OpenHelperTestCase, self).setUp()
@@ -62,7 +62,7 @@ class OpenHelperTestCase(AssetsMixin, TestCase):
 
 
 class CoberturaTestCase(AssetsMixin, TestCase):
-    """ Testing opening of coverage report."""
+    """Testing opening of coverage report."""
 
     def setUp(self):
         super(CoberturaTestCase, self).setUp()
