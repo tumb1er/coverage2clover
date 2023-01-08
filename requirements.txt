@@ -1,2 +1,2 @@
-coverage==6.4.4
+coverage==7.0.4
 pygount==1.4.0
