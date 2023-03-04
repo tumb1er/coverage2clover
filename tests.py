@@ -154,9 +154,16 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             content = tmp.read()
             real = ET.ElementTree(ET.fromstring(content))
             expected = ET.parse(os.path.join(self.assets_dir, "clover.xml"))
-            self.assertEqual(
-                ET.tostring(real.getroot()), ET.tostring(expected.getroot())
-            )
+
+            def normalize(tree):
+                root = tree.getroot()
+                root.attrib = dict(sorted(root.attrib.items()))
+                for element in tree.findall("//*"):
+                    element.attrib = dict(sorted(element.attrib.items()))
+                return ET.tostring(root)
+
+            self.assertEqual(normalize(real), normalize(expected))
+            raise RuntimeError("DEBUG TOX FAILURE")
 
 
 if __name__ == "__main__":
