@@ -4,6 +4,7 @@ import unittest
 from copy import deepcopy
 from tempfile import TemporaryFile
 from unittest import TestCase
+from xml.etree import ElementTree as ET
 
 import coverage
 from pygount import SourceAnalysis
@@ -89,11 +90,11 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         cversion = coverage.__version__
 
-        # Initial values for coverage==6.2
+        # Initial values for coverage==7.2.1
         statements = ncloc = 166
-        covered_conditions = 37
+        covered_conditions = 29
         covered_statements = 151
-        conditions = 46
+        conditions = 38
 
         expected = {
             "classes": 0,
@@ -127,8 +128,8 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         clover = deepcopy(classes[cname].__dict__)
 
         statements = ncloc = 149
-        conditions = 42
-        covered_conditions = 36
+        conditions = 34
+        covered_conditions = 28
         covered_statements = 143
 
         expected = {
@@ -151,8 +152,11 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             cl.export(tmp)
             tmp.seek(0)
             content = tmp.read()
-            with open(os.path.join(self.assets_dir, "clover.xml"), "rb") as g:
-                self.assertEqual(content, g.read())
+            real = ET.ElementTree(ET.fromstring(content))
+            expected = ET.parse(os.path.join(self.assets_dir, "clover.xml"))
+            self.assertEqual(
+                ET.tostring(real.getroot()), ET.tostring(expected.getroot())
+            )
 
 
 if __name__ == "__main__":
