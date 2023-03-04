@@ -25,7 +25,8 @@ def get_version():
         cmd = "git describe --tags --match [0-9]*".split()
         try:
             version = subprocess.check_output(cmd).decode().strip()
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError as e:
+            print(e)
             return None
 
         # PEP 386 compatibility
@@ -41,7 +42,8 @@ def get_version():
         cmd = "git diff-index --name-only HEAD".split()
         try:
             dirty = subprocess.check_output(cmd).decode().strip()
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError as e:
+            print(e)
             return None
 
         if dirty != "":
@@ -59,7 +61,7 @@ def get_version():
 
 setup(
     name=package_name,
-    version=get_version() or "dev",
+    version=get_version() or "0.0.0-dev",
     packages=["clover"],
     url="https://github.com/tumb1er/coverage2clover",
     license="Beer License",
