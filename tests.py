@@ -90,11 +90,11 @@ class CoberturaTestCase(AssetsMixin, TestCase):
 
         cversion = coverage.__version__
 
-        # Initial values for coverage==6.2
+        # Initial values for coverage==7.2.1
         statements = ncloc = 166
-        covered_conditions = 37
+        covered_conditions = 29
         covered_statements = 151
-        conditions = 46
+        conditions = 38
 
         expected = {
             "classes": 0,
@@ -128,8 +128,8 @@ class CoberturaTestCase(AssetsMixin, TestCase):
         clover = deepcopy(classes[cname].__dict__)
 
         statements = ncloc = 149
-        conditions = 42
-        covered_conditions = 36
+        conditions = 34
+        covered_conditions = 28
         covered_statements = 143
 
         expected = {
