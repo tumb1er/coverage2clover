@@ -4,6 +4,7 @@ import unittest
 from copy import deepcopy
 from tempfile import TemporaryFile
 from unittest import TestCase
+from xml.etree import ElementTree as ET
 
 import coverage
 from pygount import SourceAnalysis
@@ -151,8 +152,10 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             cl.export(tmp)
             tmp.seek(0)
             content = tmp.read()
-            with open(os.path.join(self.assets_dir, "clover.xml"), "rb") as g:
-                self.assertEqual(content, g.read())
+            real = ET.ElementTree(ET.fromstring(content))
+            expected = ET.parse(os.path.join(self.assets_dir, "clover.xml"))
+            self.assertEqual(ET.tostring(real.getroot()),
+                             ET.tostring(expected.getroot()))
 
 
 if __name__ == "__main__":
