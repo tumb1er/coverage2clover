@@ -154,8 +154,9 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             content = tmp.read()
             real = ET.ElementTree(ET.fromstring(content))
             expected = ET.parse(os.path.join(self.assets_dir, "clover.xml"))
-            self.assertEqual(ET.tostring(real.getroot()),
-                             ET.tostring(expected.getroot()))
+            self.assertEqual(
+                ET.tostring(real.getroot()), ET.tostring(expected.getroot())
+            )
 
 
 if __name__ == "__main__":
