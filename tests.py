@@ -158,7 +158,7 @@ class CoberturaTestCase(AssetsMixin, TestCase):
             def normalize(tree):
                 root = tree.getroot()
                 root.attrib = dict(sorted(root.attrib.items()))
-                for element in tree.findall("//*"):
+                for element in tree.findall(".//*"):
                     element.attrib = dict(sorted(element.attrib.items()))
                 return ET.tostring(root)
 
