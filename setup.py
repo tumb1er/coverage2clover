@@ -86,7 +86,7 @@ setup(
         "Topic :: Software Development :: Testing",
     ],
     install_requires=[
-        "coverage>=5.3,<7.0",
+        "coverage>=5.3,<8.0",
         "pygount==1.2.4",
     ],
     python_requires=">=3.6",
