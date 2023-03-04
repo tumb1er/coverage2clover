@@ -163,7 +163,6 @@ class CoberturaTestCase(AssetsMixin, TestCase):
                 return ET.tostring(root)
 
             self.assertEqual(normalize(real), normalize(expected))
-            raise RuntimeError("DEBUG TOX FAILURE")
 
 
 if __name__ == "__main__":
